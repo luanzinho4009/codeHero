@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { api } from "./services/api";
+import md5 from "js-md5";
+import env from './endpoints.config';
 
 function App() {
+  const PUBLIC_KEY = env.REACT_APP_PUBLIC_KEY;
+  const PRIVATE_KEY = env.REACT_APP_PRIVATE_KEY;
+  const limit = 10;
+  const offset = 0;
+
+  useEffect(() => {
+    const timestamp = Number(new Date());
+    const hash = md5.create();
+    hash.update(timestamp + PRIVATE_KEY + PUBLIC_KEY);
+    api
+    .get(`characters?ts=${timestamp}&offset=${offset}&limit=${limit}&apikey=${PUBLIC_KEY}&hash=${hash.hex()}`)
+    .then(response => console.log(response.data.data.results));
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1> code Hero</h1>
     </div>
   );
 }
