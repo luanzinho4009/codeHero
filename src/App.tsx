@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { api } from "./services/api";
 import md5 from "js-md5";
 import env from './endpoints.config';
+import { Header } from "./components/Header";
 
 function App() {
   const PUBLIC_KEY = env.REACT_APP_PUBLIC_KEY;
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       <h1> code Hero</h1>
     </div>
   );
